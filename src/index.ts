@@ -13,18 +13,14 @@ interface LoadSecretsArgs {
   AWS_SECRETS_MANAGER_NAMES?: string;
   AWS_SECRETS_MANAGER_REGION?: string;
   AWS_SECRETS_MANAGER_TIMEOUT?: number;
-  awsSecretsManagerName?: string;
-  awsSecretsManagerNames?: string;
-  awsSecretsManagerRegion?: string;
-  awsSecretsManagerTimeout?: number;
 }
 
 export interface SecretObject {
   [key: string]: string;
 }
 
-// parse non-strings
-const convertString = (value: string): string | number | boolean => {
+// PARSE NON-STRING
+const convertString = (value: any): string | number | boolean => {
   if (value.toLowerCase() === 'true') return true;
   if (value.toLowerCase() === 'false') return false;
   if (value.match(/^\d+\.\d+$/)) return Number.parseFloat(value);
@@ -47,11 +43,8 @@ const loadSecrets = (config: LoadSecretsArgs, overrides: LoadSecretsArgs): Recor
     if (secretName)
         mergedSecretNames.add(secretName);
 
-    if (secretNames) {
-        secretNames.split(',').map(i => i.trim()).filter(i => !!i).forEach(secretName => {
-            mergedSecretNames.add(secretName);
-        });
-    }
+    if (secretNames)
+        secretNames.split(',').map(i => i.trim()).filter(i => !!i).forEach(secretName => { mergedSecretNames.add(secretName) });
     
     // RETRIEVE ALL SECRETS FOR EACH SECRETS MANAGERS
     const secrets = [...mergedSecretNames].map((name) => {
