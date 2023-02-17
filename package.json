@@ -1,6 +1,6 @@
 {
-  "name": "ud-config-dug",
-  "version": "1.0.0",
+  "name": "next-config-dug",
+  "version": "1.0.1",
   "description": "Config Dug Alternative",
   "main": "index.js",
   "scripts": {
